@@ -1,0 +1,1167 @@
+/* ============================================================
+   HBTYWS911 — Theme engine
+   Every visual is driven by CSS custom properties set on
+   .theme-root by themeVars(). 64 themes reuse this one file.
+   ============================================================ */
+
+.theme-root {
+  position: relative;
+  isolation: isolate;
+  color: var(--c-text);
+  font-family: var(--f-body);
+  background-color: var(--c-bg2);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Public pages fill the viewport and scroll naturally. */
+.theme-root--viewport {
+  min-height: 100dvh;
+}
+
+.theme-root--contained {
+  overflow: hidden;
+}
+
+/* ---------------------------- Background ---------------------------- */
+
+.theme-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.theme-root--viewport .theme-bg {
+  position: fixed;
+}
+
+.theme-bg__base,
+.theme-bg__kind {
+  position: absolute;
+  inset: -12%;
+}
+
+.theme-bg__base {
+  background: linear-gradient(158deg, var(--c-bg1) 0%, var(--c-bg2) 100%);
+}
+
+.theme-bg__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(125% 95% at 50% 6%, transparent 36%, var(--c-vignette) 100%);
+}
+
+/* 1 · soft glow — breathing accent blooms */
+.theme-bg__kind--soft-glow {
+  background:
+    radial-gradient(58vmax 58vmax at 10% 6%, var(--c-accent-soft), transparent 62%),
+    radial-gradient(46vmax 46vmax at 92% 88%, var(--c-accent2-soft), transparent 64%),
+    radial-gradient(38vmax 38vmax at 78% 14%, var(--c-accent-soft), transparent 60%);
+  animation: bg-breathe 16s ease-in-out infinite alternate;
+}
+
+/* 2 · dream gradient — slow shifting wash */
+.theme-bg__kind--dream-gradient {
+  background:
+    linear-gradient(115deg, var(--c-accent-soft) 0%, transparent 38%),
+    linear-gradient(245deg, var(--c-accent2-soft) 0%, transparent 42%),
+    radial-gradient(80vmax 60vmax at 50% 120%, var(--c-accent-soft), transparent 60%);
+  animation: bg-hue-drift 26s ease-in-out infinite alternate;
+}
+
+/* 3 · stars — tiled specks with twinkle */
+.theme-bg__kind--stars {
+  background-image:
+    radial-gradient(1.6px 1.6px at 20% 30%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1.4px 1.4px at 70% 18%, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1.8px 1.8px at 42% 72%, rgba(255, 255, 255, 0.85), transparent),
+    radial-gradient(1.2px 1.2px at 88% 62%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1.4px 1.4px at 8% 84%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(2px 2px at 58% 44%, var(--c-accent-mid), transparent);
+  background-size: 320px 320px;
+  animation: bg-twinkle 7s ease-in-out infinite alternate;
+}
+
+/* 4 · night sky — deep gradient, horizon glow, specks */
+.theme-bg__kind--night-sky {
+  background:
+    radial-gradient(1.4px 1.4px at 24% 22%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1.2px 1.2px at 64% 12%, rgba(255, 255, 255, 0.65), transparent),
+    radial-gradient(1.6px 1.6px at 82% 46%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(70vmax 34vmax at 50% 118%, var(--c-accent-soft), transparent 70%),
+    linear-gradient(180deg, transparent 30%, var(--c-accent-soft) 130%);
+  background-size: 420px 420px, 420px 420px, 420px 420px, auto, auto;
+}
+
+/* 5 · nebula — soft cosmic clouds */
+.theme-bg__kind--nebula {
+  background:
+    radial-gradient(44vmax 34vmax at 18% 24%, var(--c-accent-mid), transparent 62%),
+    radial-gradient(50vmax 40vmax at 82% 68%, var(--c-accent2-mid), transparent 64%),
+    radial-gradient(30vmax 24vmax at 56% 12%, var(--c-accent-soft), transparent 60%),
+    radial-gradient(1.6px 1.6px at 30% 60%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1.3px 1.3px at 74% 34%, rgba(255, 255, 255, 0.7), transparent);
+  background-size: auto, auto, auto, 280px 280px, 280px 280px;
+  filter: blur(2px);
+  animation: bg-breathe 22s ease-in-out infinite alternate;
+}
+
+/* 6 · aurora — vertical light curtains */
+.theme-bg__kind--aurora {
+  background:
+    linear-gradient(96deg, transparent 8%, var(--c-accent-soft) 22%, transparent 36%),
+    linear-gradient(84deg, transparent 42%, var(--c-accent2-soft) 58%, transparent 74%),
+    linear-gradient(100deg, transparent 66%, var(--c-accent-soft) 82%, transparent 96%);
+  filter: blur(18px);
+  animation: bg-aurora 18s ease-in-out infinite alternate;
+}
+
+/* 7 · moon — pale disc over a dark sky */
+.theme-bg__kind--moon {
+  background:
+    radial-gradient(11vmax 11vmax at 78% 16%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.35) 46%, transparent 62%),
+    radial-gradient(22vmax 22vmax at 78% 16%, var(--c-accent-soft), transparent 70%),
+    radial-gradient(1.3px 1.3px at 18% 32%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 46% 70%, rgba(255, 255, 255, 0.6), transparent);
+  background-size: auto, auto, 360px 360px, 360px 360px;
+}
+
+/* 8 · bokeh — out-of-focus light circles */
+.theme-bg__kind--bokeh {
+  background:
+    radial-gradient(circle 12vmax at 18% 28%, var(--c-accent-soft), transparent 68%),
+    radial-gradient(circle 8vmax at 74% 18%, var(--c-accent2-soft), transparent 68%),
+    radial-gradient(circle 14vmax at 86% 72%, var(--c-accent-soft), transparent 68%),
+    radial-gradient(circle 6vmax at 36% 82%, var(--c-accent2-soft), transparent 68%),
+    radial-gradient(circle 9vmax at 56% 46%, rgba(255, 255, 255, 0.12), transparent 70%);
+  filter: blur(6px);
+  animation: bg-breathe 20s ease-in-out infinite alternate;
+}
+
+/* 9 · neon grid — retro perspective floor */
+.theme-bg__kind--neon-grid {
+  background:
+    linear-gradient(to bottom, transparent 58%, var(--c-accent-soft) 78%, transparent 100%),
+    repeating-linear-gradient(90deg, var(--c-accent-mid) 0 1px, transparent 1px 84px),
+    repeating-linear-gradient(0deg, var(--c-accent2-mid) 0 1px, transparent 1px 64px);
+  opacity: 0.5;
+  transform: perspective(60vh) rotateX(58deg) scale(2.2);
+  transform-origin: 50% 78%;
+  animation: bg-grid-run 14s linear infinite;
+}
+
+/* 10 · circuit — board traces + nodes */
+.theme-bg__kind--circuit {
+  background-image:
+    radial-gradient(circle 3px at 24px 24px, var(--c-accent-mid) 99%, transparent),
+    radial-gradient(circle 3px at 96px 96px, var(--c-accent2-mid) 99%, transparent),
+    repeating-linear-gradient(0deg, var(--c-accent-soft) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(90deg, var(--c-accent-soft) 0 1px, transparent 1px 48px);
+  background-size: 120px 120px;
+  opacity: 0.85;
+}
+
+/* 11 · dots — clean polka pattern */
+.theme-bg__kind--dots {
+  background-image: radial-gradient(circle 3.5px at 14px 14px, var(--c-accent-soft) 99%, transparent);
+  background-size: 44px 44px;
+}
+
+/* 12 · checkers — flag motif */
+.theme-bg__kind--checkers {
+  background-image:
+    linear-gradient(45deg, var(--c-hairline) 25%, transparent 25% 75%, var(--c-hairline) 75%),
+    linear-gradient(45deg, var(--c-hairline) 25%, transparent 25% 75%, var(--c-hairline) 75%);
+  background-size: 56px 56px;
+  background-position: 0 0, 28px 28px;
+  opacity: 0.9;
+}
+
+/* 13 · diagonal stripes — sport energy */
+.theme-bg__kind--stripes-diag {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--c-accent-soft) 0 26px,
+    transparent 26px 52px,
+    var(--c-accent2-soft) 52px 78px,
+    transparent 78px 104px
+  );
+  animation: bg-stripe-slide 24s linear infinite;
+}
+
+/* 14 · candy stripes */
+.theme-bg__kind--candy-stripes {
+  background-image: repeating-linear-gradient(
+    -38deg,
+    var(--c-accent-soft) 0 34px,
+    rgba(255, 255, 255, 0.5) 34px 68px
+  );
+  animation: bg-stripe-slide 30s linear infinite;
+}
+
+/* 15 · scanlines — CRT arcade */
+.theme-bg__kind--scanlines {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 2px, transparent 2px 5px),
+    radial-gradient(80vmax 50vmax at 50% 40%, var(--c-accent-soft), transparent 70%);
+  opacity: 0.75;
+  animation: bg-scan 9s linear infinite;
+}
+
+/* 16 · waves — layered water */
+.theme-bg__kind--waves {
+  background:
+    radial-gradient(120vmax 26vmax at 20% 108%, var(--c-accent-mid), transparent 62%),
+    radial-gradient(110vmax 22vmax at 76% 116%, var(--c-accent2-mid), transparent 62%),
+    radial-gradient(90vmax 18vmax at 48% 124%, rgba(255, 255, 255, 0.35), transparent 64%);
+  animation: bg-wave 15s ease-in-out infinite alternate;
+}
+
+/* 17 · mountains — layered silhouettes */
+.theme-bg__kind--mountains {
+  background:
+    linear-gradient(to top, var(--c-accent-soft), transparent 46%),
+    conic-gradient(from 210deg at 22% 100%, transparent 0deg, var(--c-accent-mid) 12deg, transparent 26deg),
+    conic-gradient(from 200deg at 62% 100%, transparent 0deg, var(--c-accent2-mid) 16deg, transparent 34deg),
+    conic-gradient(from 214deg at 92% 100%, transparent 0deg, var(--c-accent-soft) 14deg, transparent 30deg);
+}
+
+/* 18 · sunset — warm bands + low sun */
+.theme-bg__kind--sunset {
+  background:
+    radial-gradient(28vmax 28vmax at 50% 76%, var(--c-accent2-mid), transparent 66%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.16) 0 2px, transparent 2px 26px),
+    linear-gradient(to top, var(--c-accent-mid), transparent 58%);
+}
+
+/* 19 · clouds — drifting soft blobs */
+.theme-bg__kind--clouds {
+  background:
+    radial-gradient(24vmax 12vmax at 16% 22%, rgba(255, 255, 255, 0.72), transparent 66%),
+    radial-gradient(30vmax 14vmax at 72% 34%, rgba(255, 255, 255, 0.55), transparent 66%),
+    radial-gradient(22vmax 11vmax at 42% 68%, rgba(255, 255, 255, 0.45), transparent 66%),
+    radial-gradient(26vmax 12vmax at 88% 80%, rgba(255, 255, 255, 0.4), transparent 66%);
+  filter: blur(4px);
+  animation: bg-drift-x 34s ease-in-out infinite alternate;
+}
+
+/* 20 · paper — pressed stationery */
+.theme-bg__kind--paper {
+  background-image:
+    repeating-linear-gradient(0deg, var(--c-hairline) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(90deg, var(--c-hairline) 0 1px, transparent 1px 9px);
+  opacity: 0.5;
+}
+
+/* 21 · geometric — arabesque-inspired tiling */
+.theme-bg__kind--geometric {
+  background-image:
+    repeating-conic-gradient(from 0deg at 50% 50%, var(--c-accent-soft) 0deg 22deg, transparent 22deg 45deg),
+    repeating-linear-gradient(45deg, var(--c-accent2-soft) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(-45deg, var(--c-accent2-soft) 0 1px, transparent 1px 34px);
+  background-size: 96px 96px, auto, auto;
+  opacity: 0.65;
+}
+
+/* 22 · film — letterbox + grain */
+.theme-bg__kind--film {
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 0 7%, transparent 7% 93%, rgba(0, 0, 0, 0.85) 93% 100%),
+    repeating-linear-gradient(90deg, var(--c-hairline) 0 1px, transparent 1px 4px),
+    radial-gradient(60vmax 40vmax at 50% 46%, var(--c-accent-soft), transparent 68%);
+  opacity: 0.85;
+}
+
+/* 23 · newsprint — columns + halftone */
+.theme-bg__kind--newsprint {
+  background-image:
+    radial-gradient(circle 1.4px at 4px 4px, var(--c-hairline) 99%, transparent),
+    repeating-linear-gradient(90deg, transparent 0 118px, var(--c-hairline) 118px 119px);
+  background-size: 8px 8px, auto;
+  opacity: 0.8;
+}
+
+/* 24 · confetti flat — scattered paper bits */
+.theme-bg__kind--confetti-flat {
+  background-image:
+    linear-gradient(38deg, var(--c-accent-mid) 0 12px, transparent 12px),
+    linear-gradient(-52deg, var(--c-accent2-mid) 0 12px, transparent 12px),
+    linear-gradient(74deg, var(--confetti-3) 0 10px, transparent 10px),
+    linear-gradient(-18deg, var(--confetti-4) 0 10px, transparent 10px);
+  background-size: 220px 220px, 260px 260px, 300px 300px, 180px 180px;
+  background-position: 12% 18%, 68% 32%, 34% 76%, 86% 66%;
+  background-repeat: repeat;
+  opacity: 0.55;
+}
+
+/* 25 · fireworks — radial bursts */
+.theme-bg__kind--fireworks {
+  background-image:
+    repeating-conic-gradient(from 0deg at 24% 30%, var(--c-accent-mid) 0deg 1.2deg, transparent 1.2deg 12deg),
+    repeating-conic-gradient(from 8deg at 74% 22%, var(--c-accent2-mid) 0deg 1deg, transparent 1deg 14deg),
+    repeating-conic-gradient(from 20deg at 52% 68%, var(--confetti-3) 0deg 1deg, transparent 1deg 16deg),
+    radial-gradient(30vmax 30vmax at 24% 30%, var(--c-accent-soft), transparent 62%),
+    radial-gradient(26vmax 26vmax at 74% 22%, var(--c-accent2-soft), transparent 62%);
+  opacity: 0.6;
+  animation: bg-breathe 12s ease-in-out infinite alternate;
+}
+
+/* 26 · sun rays */
+.theme-bg__kind--sun-rays {
+  background:
+    repeating-conic-gradient(from 0deg at 50% -10%, var(--c-accent-soft) 0deg 5deg, transparent 5deg 14deg),
+    radial-gradient(40vmax 40vmax at 50% -6%, var(--c-accent2-soft), transparent 66%);
+  animation: bg-spin-slow 90s linear infinite;
+}
+
+/* 27 · disco — mirror ball tiles */
+.theme-bg__kind--disco {
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.14) 0 2px, transparent 2px 46px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.14) 0 2px, transparent 2px 46px),
+    radial-gradient(34vmax 34vmax at 22% 20%, var(--c-accent-mid), transparent 64%),
+    radial-gradient(30vmax 30vmax at 78% 74%, var(--c-accent2-mid), transparent 64%);
+  animation: bg-shimmer 9s linear infinite;
+}
+
+/* 28 · speed — motion streaks */
+.theme-bg__kind--speed {
+  background-image:
+    repeating-linear-gradient(90deg, var(--c-accent-mid) 0 90px, transparent 90px 260px),
+    repeating-linear-gradient(90deg, var(--c-accent2-mid) 0 60px, transparent 60px 340px),
+    radial-gradient(60vmax 40vmax at 88% 50%, var(--c-accent-soft), transparent 68%);
+  background-size: auto, auto, auto;
+  opacity: 0.42;
+  animation: bg-speed 3.4s linear infinite;
+}
+
+/* 29 · floral — painted bloom clusters */
+.theme-bg__kind--floral {
+  background-image:
+    radial-gradient(circle 16px at 40px 40px, var(--c-accent-soft) 99%, transparent),
+    radial-gradient(circle 9px at 62px 26px, var(--c-accent2-soft) 99%, transparent),
+    radial-gradient(circle 9px at 22px 62px, var(--c-accent2-soft) 99%, transparent),
+    radial-gradient(circle 13px at 108px 96px, var(--c-accent-soft) 99%, transparent);
+  background-size: 150px 150px;
+  opacity: 0.9;
+}
+
+/* 30 · pixel grid — chunky 8-bit blocks */
+.theme-bg__kind--pixel-grid {
+  background-image:
+    repeating-conic-gradient(var(--c-accent-soft) 0% 25%, transparent 0% 50%),
+    repeating-linear-gradient(0deg, var(--c-hairline) 0 2px, transparent 2px 32px),
+    repeating-linear-gradient(90deg, var(--c-hairline) 0 2px, transparent 2px 32px);
+  background-size: 64px 64px, auto, auto;
+  opacity: 0.9;
+}
+
+/* 31 · metal — brushed steel */
+.theme-bg__kind--metal {
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0 1px, transparent 1px 7px),
+    linear-gradient(115deg, rgba(255, 255, 255, 0.16) 0%, transparent 34%, rgba(255, 255, 255, 0.1) 68%, transparent 100%);
+  animation: bg-sheen 12s ease-in-out infinite alternate;
+}
+
+/* 32 · spotlight — stage cone */
+.theme-bg__kind--spotlight {
+  background:
+    conic-gradient(from 168deg at 50% -6%, transparent 0deg, var(--c-accent-soft) 9deg, var(--c-accent2-soft) 14deg, transparent 24deg),
+    radial-gradient(50vmax 26vmax at 50% 104%, var(--c-accent-soft), transparent 70%);
+  animation: bg-breathe 11s ease-in-out infinite alternate;
+}
+
+/* 33 · velvet — plush folds */
+.theme-bg__kind--velvet {
+  background-image:
+    repeating-linear-gradient(102deg, rgba(255, 255, 255, 0.05) 0 22px, transparent 22px 62px),
+    repeating-linear-gradient(78deg, rgba(0, 0, 0, 0.16) 0 18px, transparent 18px 74px),
+    radial-gradient(70vmax 50vmax at 50% 0%, var(--c-accent-soft), transparent 66%);
+  filter: blur(1px);
+}
+
+/* 34 · notepaper — ruled lines + margin */
+.theme-bg__kind--notepaper {
+  background-image:
+    linear-gradient(90deg, transparent 0 8%, var(--c-accent-mid) 8% calc(8% + 1px), transparent calc(8% + 1px)),
+    repeating-linear-gradient(0deg, transparent 0 33px, var(--c-hairline) 33px 34px);
+  opacity: 0.75;
+}
+
+/* 35 · kraft — recycled texture */
+.theme-bg__kind--kraft {
+  background-image:
+    radial-gradient(circle 2px at 12px 18px, var(--c-hairline) 99%, transparent),
+    radial-gradient(circle 2px at 48px 6px, var(--c-hairline) 99%, transparent),
+    radial-gradient(circle 1.6px at 30px 44px, var(--c-hairline) 99%, transparent),
+    repeating-linear-gradient(38deg, var(--c-hairline) 0 1px, transparent 1px 14px);
+  background-size: 64px 64px;
+  opacity: 0.9;
+}
+
+/* 36 · clean — nothing but a soft sheen */
+.theme-bg__kind--clean {
+  background: radial-gradient(90vmax 60vmax at 50% -10%, rgba(255, 255, 255, 0.4), transparent 62%);
+}
+
+/* ------------------------- Decoration particles ------------------------- */
+
+.decor {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.theme-root--viewport .decor {
+  position: fixed;
+}
+
+.decor__p {
+  position: absolute;
+  left: var(--x, 50%);
+  top: var(--y, 50%);
+  width: calc(20px * var(--size, 1));
+  height: calc(20px * var(--size, 1));
+  display: block;
+  background: var(--confetti-1);
+  opacity: 0.85;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0) rotate(var(--rot, 0deg));
+}
+
+.decor__p:nth-child(4n + 1) {
+  background: var(--confetti-1);
+}
+.decor__p:nth-child(4n + 2) {
+  background: var(--confetti-2);
+}
+.decor__p:nth-child(4n + 3) {
+  background: var(--confetti-3);
+}
+.decor__p:nth-child(4n + 4) {
+  background: var(--confetti-4);
+}
+
+/* Motion variants ------------------------------------------------------- */
+
+.decor--fall .decor__p {
+  top: -12%;
+  animation: decor-fall calc(var(--dur, 1) * 13s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.decor--rise .decor__p {
+  top: 110%;
+  animation: decor-rise calc(var(--dur, 1) * 15s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.decor--float .decor__p {
+  animation: decor-float calc(var(--dur, 1) * 9s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.decor--drift .decor__p {
+  animation: decor-drift calc(var(--dur, 1) * 17s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.decor--sparkle .decor__p {
+  animation: decor-sparkle calc(var(--dur, 1) * 4s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.decor--sway .decor__p {
+  animation: decor-sway calc(var(--dur, 1) * 8s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Shape variants -------------------------------------------------------- */
+
+.decor__p--hearts,
+.decor__p--stars,
+.decor__p--sparkles,
+.decor__p--petals,
+.decor__p--leaves,
+.decor__p--balloons {
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.decor__p--hearts {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.2S3.6 16.1 3.6 10.2A4.9 4.9 0 0 1 12 6.9a4.9 4.9 0 0 1 8.4 3.3c0 5.9-8.4 11-8.4 11z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.2S3.6 16.1 3.6 10.2A4.9 4.9 0 0 1 12 6.9a4.9 4.9 0 0 1 8.4 3.3c0 5.9-8.4 11-8.4 11z'/%3E%3C/svg%3E");
+}
+
+.decor__p--stars {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7l-6.4 3.5 1.4-7.1-5.3-5 7.2-.9z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7l-6.4 3.5 1.4-7.1-5.3-5 7.2-.9z'/%3E%3C/svg%3E");
+}
+
+.decor__p--sparkles {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1.1 7 5.9 11.8 12 12-6.1.2-10.9 5-12 12-1.1-7-5.9-11.8-12-12C6.1 11.8 10.9 7 12 0z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c1.1 7 5.9 11.8 12 12-6.1.2-10.9 5-12 12-1.1-7-5.9-11.8-12-12C6.1 11.8 10.9 7 12 0z'/%3E%3C/svg%3E");
+}
+
+.decor__p--petals {
+  border-radius: 62% 38% 58% 42% / 58% 42% 62% 38%;
+}
+
+.decor__p--leaves {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21.5 2.5C9.5 2.5 2.5 9.5 2.5 21.5c12 0 19-7 19-19zM5 19C7 12 12 7 18 5'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21.5 2.5C9.5 2.5 2.5 9.5 2.5 21.5c12 0 19-7 19-19zM5 19C7 12 12 7 18 5'/%3E%3C/svg%3E");
+}
+
+.decor__p--balloons {
+  height: calc(26px * var(--size, 1));
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 32'%3E%3Cpath d='M12 1a8 10 0 0 1 8 10c0 5.6-4 9.4-7.2 9.9L14 23h-4l1.2-2.1C8 20.4 4 16.6 4 11A8 10 0 0 1 12 1z'/%3E%3Cpath d='M12 23v9' stroke='black' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 32'%3E%3Cpath d='M12 1a8 10 0 0 1 8 10c0 5.6-4 9.4-7.2 9.9L14 23h-4l1.2-2.1C8 20.4 4 16.6 4 11A8 10 0 0 1 12 1z'/%3E%3Cpath d='M12 23v9' stroke='black' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+}
+
+.decor__p--bubbles,
+.decor__p.decor__p--bubbles {
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.18) 42%, transparent 68%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.decor__p--confetti {
+  width: calc(11px * var(--size, 1));
+  height: calc(17px * var(--size, 1));
+  border-radius: 2px;
+}
+
+.decor__p--embers,
+.decor__p.decor__p--embers {
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--c-accent2) 0%, var(--c-accent) 45%, transparent 72%);
+  filter: blur(0.6px);
+}
+
+.decor__p--clouds,
+.decor__p.decor__p--clouds {
+  width: calc(72px * var(--size, 1));
+  height: calc(30px * var(--size, 1));
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  filter: blur(7px);
+}
+
+.decor__p--notes,
+.decor__p.decor__p--notes {
+  background: transparent;
+  color: var(--confetti-1);
+  font-family: var(--f-body);
+  font-size: calc(20px * var(--size, 1));
+  line-height: 1;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.decor__p.decor__p--notes:nth-child(4n + 2) {
+  color: var(--confetti-2);
+}
+.decor__p.decor__p--notes:nth-child(4n + 3) {
+  color: var(--confetti-3);
+}
+.decor__p.decor__p--notes:nth-child(4n + 4) {
+  color: var(--confetti-4);
+}
+
+/* ------------------------------ Typography ------------------------------ */
+
+.t-heading {
+  font-family: var(--f-heading);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: 0.01em;
+  color: var(--c-text);
+}
+
+.t-subheading {
+  font-family: var(--f-body);
+  color: var(--c-muted);
+  line-height: 1.6;
+}
+
+.t-body {
+  font-family: var(--f-body);
+  color: var(--c-text);
+  line-height: 1.7;
+}
+
+/* -------------------------------- Cards -------------------------------- */
+
+.t-card {
+  position: relative;
+  background: var(--c-surface);
+  color: var(--c-text);
+  border-radius: 22px;
+  padding: 1.5rem;
+}
+
+.t-card--glass {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 24px;
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  box-shadow: 0 22px 60px -26px var(--c-shadow);
+}
+
+.t-card--solid {
+  background: var(--c-panel-strong);
+  border: 1px solid var(--c-hairline);
+  border-radius: 20px;
+  box-shadow: 0 18px 44px -24px var(--c-shadow);
+}
+
+.t-card--polaroid {
+  background: rgba(255, 255, 255, 0.96);
+  color: #2a2430;
+  border-radius: 6px;
+  padding: 0.9rem 0.9rem 2.6rem;
+  box-shadow: 0 16px 38px -18px rgba(0, 0, 0, 0.45);
+  transform: rotate(-0.7deg);
+}
+
+.t-card--neon {
+  background: var(--c-surface);
+  border: 1px solid var(--c-accent-mid);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px var(--c-accent-soft),
+    0 0 34px -6px var(--c-accent-glow),
+    inset 0 0 26px -18px var(--c-accent-glow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.t-card--pixel {
+  background: var(--c-panel-strong);
+  border: 3px solid var(--c-accent);
+  border-radius: 0;
+  box-shadow: 7px 7px 0 var(--c-accent-mid);
+}
+
+.t-card--minimal {
+  background: var(--c-panel);
+  border: 1px solid var(--c-hairline);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.t-card--paper {
+  background: var(--c-panel-strong);
+  border: 1px dashed var(--c-hairline);
+  border-radius: 6px;
+  box-shadow: 0 10px 26px -18px var(--c-shadow);
+}
+
+.t-card--ornate {
+  background: var(--c-surface);
+  border: 1px solid var(--c-accent-mid);
+  border-radius: 18px;
+  box-shadow:
+    inset 0 0 0 5px var(--c-panel-strong),
+    inset 0 0 0 6px var(--c-accent-mid),
+    0 22px 54px -28px var(--c-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ------------------------------- Buttons ------------------------------- */
+
+.t-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0.85rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.t-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.t-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.985);
+}
+
+.t-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.t-btn:focus-visible {
+  outline: 3px solid var(--c-accent);
+  outline-offset: 3px;
+}
+
+.t-btn--pill {
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+  border-radius: 999px;
+  box-shadow: 0 12px 28px -12px var(--c-accent-glow);
+}
+
+.t-btn--pill:hover:not(:disabled) {
+  box-shadow: 0 16px 34px -12px var(--c-accent-glow);
+}
+
+.t-btn--neon {
+  background: transparent;
+  color: var(--c-accent);
+  border-color: var(--c-accent-mid);
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.82rem;
+  text-shadow: 0 0 12px var(--c-accent-glow);
+  box-shadow:
+    0 0 18px -6px var(--c-accent-glow),
+    inset 0 0 14px -10px var(--c-accent-glow);
+}
+
+.t-btn--neon:hover:not(:disabled) {
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+}
+
+.t-btn--gradient {
+  background: linear-gradient(120deg, var(--c-accent) 0%, var(--c-accent2) 100%);
+  color: var(--c-on-accent);
+  border-radius: 14px;
+  box-shadow: 0 14px 32px -14px var(--c-accent-glow);
+}
+
+.t-btn--outline {
+  background: transparent;
+  color: var(--c-accent);
+  border: 1.5px solid var(--c-accent-mid);
+  border-radius: 10px;
+}
+
+.t-btn--outline:hover:not(:disabled) {
+  background: var(--c-accent-soft);
+}
+
+.t-btn--gold {
+  background: linear-gradient(135deg, var(--c-accent2) 0%, var(--c-accent) 55%, var(--c-accent2) 100%);
+  color: var(--c-on-accent);
+  border: 1px solid var(--c-accent-mid);
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  box-shadow: 0 12px 28px -14px var(--c-accent-glow);
+}
+
+.t-btn--pixel {
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+  border: 3px solid var(--c-text);
+  border-radius: 0;
+  box-shadow: 5px 5px 0 var(--c-accent-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+.t-btn--pixel:hover:not(:disabled) {
+  box-shadow: 3px 3px 0 var(--c-accent-mid);
+}
+
+.t-btn--glossy {
+  background: linear-gradient(180deg, var(--c-accent2) 0%, var(--c-accent) 60%);
+  color: var(--c-on-accent);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 0 2px 6px rgba(255, 255, 255, 0.5),
+    0 12px 26px -12px var(--c-accent-glow);
+}
+
+.t-btn--minimal {
+  background: transparent;
+  color: var(--c-accent);
+  border: 0;
+  border-bottom: 1.5px solid var(--c-accent-mid);
+  border-radius: 0;
+  padding: 0.6rem 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+}
+
+.t-btn--minimal:hover:not(:disabled) {
+  border-bottom-color: var(--c-accent);
+  transform: none;
+}
+
+/* Secondary / ghost variant used next to primary buttons */
+.t-btn--ghost {
+  background: var(--c-panel);
+  color: var(--c-text);
+  border: 1px solid var(--c-hairline);
+  border-radius: 12px;
+}
+
+.t-btn--ghost:hover:not(:disabled) {
+  background: var(--c-panel-strong);
+}
+
+.t-btn--sm {
+  padding: 0.55rem 0.95rem;
+  font-size: 0.82rem;
+}
+
+.t-btn--lg {
+  padding: 1.05rem 2rem;
+  font-size: 1.05rem;
+}
+
+.t-btn--block {
+  width: 100%;
+}
+
+/* -------------------------------- Inputs -------------------------------- */
+
+.t-input {
+  width: 100%;
+  background: var(--c-panel-strong);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  font-family: var(--f-body);
+  font-size: 1rem;
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.t-input::placeholder {
+  color: var(--c-muted);
+  opacity: 0.7;
+}
+
+.t-input:focus {
+  outline: none;
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 4px var(--c-accent-soft);
+}
+
+.t-input--center {
+  text-align: center;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------- Chips / misc surfaces ------------------------- */
+
+.t-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  border: 1px solid var(--c-border);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.t-divider {
+  height: 1px;
+  background: var(--c-hairline);
+  border: 0;
+}
+
+.t-muted {
+  color: var(--c-muted);
+}
+
+.t-accent {
+  color: var(--c-accent);
+}
+
+/* ------------------------------ Keyframes ------------------------------ */
+
+@keyframes bg-breathe {
+  from {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes bg-hue-drift {
+  from {
+    transform: translate3d(-2%, -1%, 0) scale(1.04);
+  }
+  to {
+    transform: translate3d(2%, 2%, 0) scale(1.1);
+  }
+}
+
+@keyframes bg-twinkle {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bg-drift-x {
+  from {
+    transform: translate3d(-3%, 0, 0);
+  }
+  to {
+    transform: translate3d(3%, 1%, 0);
+  }
+}
+
+@keyframes bg-aurora {
+  0% {
+    transform: translate3d(-4%, 0, 0) skewX(-4deg);
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(4%, 2%, 0) skewX(4deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes bg-grid-run {
+  from {
+    background-position:
+      0 0,
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      0 0,
+      0 0,
+      0 64px;
+  }
+}
+
+@keyframes bg-stripe-slide {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 400px 0;
+  }
+}
+
+@keyframes bg-scan {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      0 220px,
+      0 0;
+  }
+}
+
+@keyframes bg-wave {
+  from {
+    transform: translate3d(-2%, 0, 0);
+  }
+  to {
+    transform: translate3d(2%, -1%, 0);
+  }
+}
+
+@keyframes bg-shimmer {
+  from {
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      180px 0,
+      0 180px,
+      40px 20px,
+      -40px -20px;
+  }
+}
+
+@keyframes bg-speed {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-340px, 0, 0);
+  }
+}
+
+@keyframes bg-sheen {
+  from {
+    background-position:
+      0 0,
+      0 0,
+      -30% 0;
+  }
+  to {
+    background-position:
+      0 0,
+      0 0,
+      130% 0;
+  }
+}
+
+@keyframes bg-spin-slow {
+  from {
+    transform: rotate(0deg) scale(1.4);
+  }
+  to {
+    transform: rotate(360deg) scale(1.4);
+  }
+}
+
+@keyframes decor-fall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate3d(var(--drift, 0px), 118vh, 0) rotate(420deg);
+    opacity: 0;
+  }
+}
+
+@keyframes decor-rise {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(var(--drift, 0px), -125vh, 0) rotate(-90deg);
+    opacity: 0;
+  }
+}
+
+@keyframes decor-float {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(var(--rot, 0deg)) scale(1);
+  }
+  50% {
+    transform: translate3d(var(--drift, 0px), -26px, 0) rotate(calc(var(--rot, 0deg) + 12deg)) scale(1.08);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--rot, 0deg)) scale(1);
+  }
+}
+
+@keyframes decor-drift {
+  0% {
+    transform: translate3d(-6vw, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  88% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(106vw, -8vh, 0) rotate(220deg);
+    opacity: 0;
+  }
+}
+
+@keyframes decor-sparkle {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.7) rotate(var(--rot, 0deg));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15) rotate(calc(var(--rot, 0deg) + 45deg));
+  }
+}
+
+@keyframes decor-sway {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-14deg);
+  }
+  50% {
+    transform: translate3d(var(--drift, 0px), 12px, 0) rotate(14deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-14deg);
+  }
+}
+
+/* ---------------------------- Reduced motion ---------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-bg__kind,
+  .decor__p {
+    animation: none !important;
+  }
+
+  .decor__p {
+    opacity: 0.5;
+  }
+
+  .t-btn:hover:not(:disabled) {
+    transform: none;
+  }
+}
