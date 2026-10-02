@@ -209,7 +209,7 @@ begin
     v_dob := p_dob::date;
   exception when others then
     return jsonb_build_object('status', 'invalid');
-  end if;
+  end;
   if p_dob is null or to_char(v_dob, 'YYYY-MM-DD') <> p_dob then
     return jsonb_build_object('status', 'invalid');
   end if;
