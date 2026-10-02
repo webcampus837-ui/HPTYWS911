@@ -28,7 +28,13 @@
 -- ----------------------------------------------------------------------------
 -- 0. Clean re-run (idempotency)
 -- ----------------------------------------------------------------------------
-drop trigger if exists birthdays_set_updated_at on public.birthdays;
+-- The trigger must be dropped inside a DO block because DROP TRIGGER ... ON
+-- requires the table to exist; IF EXISTS only covers the trigger, not the table.
+do $$ begin
+  drop trigger if exists birthdays_set_updated_at on public.birthdays;
+exception when undefined_table then null;
+end $$;
+
 drop function    if exists public.set_updated_at() cascade;
 drop function    if exists public.get_birthday_teaser(text) cascade;
 drop function    if exists public.unlock_birthday(text, text) cascade;
